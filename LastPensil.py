@@ -1,3 +1,33 @@
+import random
+
+# bot strategy
+def bot_move(pencils_num):
+    move = 0
+    
+    # determine if bot is in a winning position
+    if pencils_num % 4 == 0 or pencils_num % 4 == 3 or pencils_num % 4 == 2:
+        winning = True
+    else:
+        winning = False
+    
+    # strategy for being in a winning position
+    if winning:
+        if pencils_num % 4 == 0:
+            move = 3
+        elif pencils_num % 4 == 3:
+            move = 2
+        else:
+            move = 1
+        
+    # strategy for not being in a winning position
+    else:
+        if pencils_num == 1:
+            move = 1
+        else:
+            move = random.randint(1, 3)
+                
+    return move
+
 
 # 01. Game setup
 
@@ -15,7 +45,7 @@ while True:
     else:
         break
 
-players = ["John", "Jack"]
+players = ["player", "bot"]
 
 # Input validity check: first player
 while True:
@@ -35,7 +65,11 @@ while pencils_num > 0:
     print(f"{current_player}'s turn:")
     while True:    
         try:
-            pencils_taken = int(input())
+            if i == 1: # bot's move
+                pencils_taken = bot_move(pencils_num) 
+                print(pencils_taken)
+            else:
+                pencils_taken = int(input())
         except ValueError:
             print("Possible values: '1', '2' or '3'")
             continue
@@ -59,4 +93,4 @@ while pencils_num > 0:
         i = 0
     current_player = players[i]
     
-print(f"{current_player} won!")
+print(f"The {current_player} won!")
